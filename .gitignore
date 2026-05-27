@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.DS_Store
+.env
+.env.*
+*.local
+
+# Photos are hosted on Cloudflare R2, not committed to git
+src/assets/photos/
