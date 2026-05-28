@@ -24,6 +24,22 @@ if (site.youtubeChannelId) {
     if (parsed.length > 0) videos = parsed;
   } catch { /* fallback */ }
 }
+
+// Fetch missing titles from YouTube oEmbed (no API key needed)
+videos = await Promise.all(
+  videos.map(async v => {
+    if (v.title) return v;
+    try {
+      const r = await fetch(
+        `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${v.id}&format=json`
+      );
+      const data = await r.json() as { title?: string };
+      return { ...v, title: data.title ?? '' };
+    } catch {
+      return v;
+    }
+  })
+);
 ---
 
 <Layout title="Quinn Albert" description="Photographer & filmmaker — Quinn Albert">
@@ -165,6 +181,9 @@ if (site.youtubeChannelId) {
                aria-label={video.title ? `Play: ${video.title}` : 'Play video'}>
             <img src={`https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`}
                  alt={video.title || 'YouTube video'} loading="lazy" />
+            {video.title && (
+              <div class="video-title" aria-hidden="true">{video.title}</div>
+            )}
             <div class="play-overlay" aria-hidden="true">
               <div class="play-btn">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
