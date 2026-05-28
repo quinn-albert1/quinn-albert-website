@@ -6,6 +6,13 @@ import { buildPhotoData } from '../lib/photos';
 const { sections, allGalleryPhotos } = buildPhotoData();
 const hasPhotos = allGalleryPhotos.length > 0;
 
+// Shuffle gallery photos (Fisher-Yates, runs at build time)
+const galleryPhotos = [...allGalleryPhotos];
+for (let i = galleryPhotos.length - 1; i > 0; i--) {
+  const j = Math.floor(Math.random() * (i + 1));
+  [galleryPhotos[i], galleryPhotos[j]] = [galleryPhotos[j], galleryPhotos[i]];
+}
+
 // Videos
 let videos = site.featuredVideos.map(v => ({ id: v.id, title: v.title }));
 if (site.youtubeChannelId) {
@@ -119,7 +126,7 @@ videos = await Promise.all(
 
       {hasPhotos ? (
         <div class="photo-grid home-gallery" id="photo-grid">
-          {allGalleryPhotos.map((photo, i) => (
+          {galleryPhotos.map((photo, i) => (
             <button
               class="photo-item"
               data-src={photo.url}
