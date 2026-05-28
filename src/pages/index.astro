@@ -65,6 +65,21 @@ videos = await Promise.all(
         </a>
       </li>
     </ul>
+
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Open navigation" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <div class="nav-mobile-menu" id="nav-mobile-menu" aria-hidden="true">
+      <ul role="list">
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#explore">Explore</a></li>
+        <li><a href="#videos">Videos</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
   </nav>
 
   <main id="main">
@@ -303,6 +318,23 @@ videos = await Promise.all(
       const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 40);
       window.addEventListener('scroll', onScroll, { passive: true });
       onScroll();
+    }
+
+    const hamburger = document.getElementById('nav-hamburger');
+    const mobileMenu = document.getElementById('nav-mobile-menu');
+    if (hamburger && nav && mobileMenu) {
+      hamburger.addEventListener('click', () => {
+        const isOpen = nav.classList.toggle('nav-open');
+        hamburger.setAttribute('aria-expanded', String(isOpen));
+        mobileMenu.setAttribute('aria-hidden', String(!isOpen));
+      });
+      mobileMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          nav.classList.remove('nav-open');
+          hamburger.setAttribute('aria-expanded', 'false');
+          mobileMenu.setAttribute('aria-hidden', 'true');
+        });
+      });
     }
 
     const dialog = document.getElementById('lightbox') as HTMLDialogElement | null;
