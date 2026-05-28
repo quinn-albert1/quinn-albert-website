@@ -53,6 +53,11 @@ export const site = {
     'yunnan': '2026',
   } as Record<string, string>,
 
+  // Print inquiry form via Formspree (formspree.io).
+  // 1. Sign up at formspree.io → New Form → copy the 8-char ID (e.g. "xpzvogkb")
+  // 2. Paste it here. Leave empty to hide the print inquiry button entirely.
+  formspreeId: "",
+
   // Photo hosting via Cloudflare R2
   // Steps: cloudflare.com/dashboard → R2 → Create bucket → "quinn-albert-photos"
   //        Upload compressed photos → Settings → "Allow public access"

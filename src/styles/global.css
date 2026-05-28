@@ -711,13 +711,14 @@ section {
 .lightbox-inner {
   position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
 .lightbox-img {
   max-width: 90vw;
-  max-height: 90vh;
+  max-height: calc(90vh - 56px);
   object-fit: contain;
   display: block;
 }
@@ -741,6 +742,154 @@ section {
   z-index: 1000;
 }
 .lightbox-close:hover { background: rgba(255,255,255,0.16); }
+
+.lightbox-footer {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  display: flex;
+  justify-content: center;
+  background: rgba(0,0,0,0.6);
+}
+
+.print-inquiry-btn {
+  background: none;
+  border: 1px solid rgba(201, 169, 110, 0.6);
+  color: var(--color-accent);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.5rem 1.25rem;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: background 0.2s, border-color 0.2s;
+}
+.print-inquiry-btn:hover {
+  background: rgba(201, 169, 110, 0.1);
+  border-color: var(--color-accent);
+}
+
+/* ---- Print inquiry dialog ---- */
+.print-dialog {
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: 0;
+  max-width: 460px;
+  width: 92vw;
+  position: fixed;
+  inset: 0;
+  margin: auto;
+}
+.print-dialog::backdrop {
+  background: rgba(0,0,0,0.8);
+}
+.print-dialog-inner {
+  padding: 2rem;
+  position: relative;
+}
+.print-dialog-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--color-text);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.print-dialog-close:hover { background: rgba(255,255,255,0.12); }
+
+.print-dialog-thumb {
+  width: 100%;
+  max-height: 180px;
+  object-fit: cover;
+  border-radius: 2px;
+  margin-bottom: 1.25rem;
+  display: block;
+}
+.print-dialog-heading {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  margin-bottom: 0.35rem;
+}
+.print-dialog-sub {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+  margin-bottom: 1.5rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+}
+.form-field label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+.form-optional {
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.form-field input,
+.form-field textarea {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--color-border);
+  border-radius: 2px;
+  color: var(--color-text);
+  font-size: 0.9rem;
+  padding: 0.6rem 0.75rem;
+  font-family: inherit;
+  transition: border-color 0.2s;
+  resize: vertical;
+}
+.form-field input:focus,
+.form-field textarea:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+.form-field input::placeholder,
+.form-field textarea::placeholder {
+  color: var(--color-muted);
+  opacity: 0.6;
+}
+
+.print-submit-btn {
+  margin-top: 0.5rem;
+  width: 100%;
+  padding: 0.75rem;
+  background: var(--color-accent);
+  color: #000;
+  border: none;
+  border-radius: 2px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.print-submit-btn:hover { opacity: 0.85; }
+
+.print-success {
+  text-align: center;
+  padding: 2rem 0 1rem;
+  color: var(--color-accent);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
 
 /* ---- Videos ---- */
 #videos {

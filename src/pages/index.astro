@@ -181,8 +181,46 @@ videos = await Promise.all(
           </svg>
         </button>
         <img class="lightbox-img" id="lightbox-img" src="" alt="" />
+        {site.formspreeId && (
+          <div class="lightbox-footer">
+            <button class="print-inquiry-btn" id="print-inquiry-btn">Interested in a print?</button>
+          </div>
+        )}
       </div>
     </dialog>
+
+    <!-- PRINT INQUIRY DIALOG -->
+    {site.formspreeId && (
+      <dialog class="print-dialog" id="print-dialog" aria-label="Request a print">
+        <div class="print-dialog-inner">
+          <button class="print-dialog-close" id="print-dialog-close" aria-label="Close">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+              <path d="M18 6 6 18M6 6l12 12"/>
+            </svg>
+          </button>
+          <img class="print-dialog-thumb" id="print-dialog-thumb" src="" alt="" />
+          <h2 class="print-dialog-heading">Request a print</h2>
+          <p class="print-dialog-sub">I'll get back to you with sizes, pricing, and options.</p>
+          <form id="print-form" method="POST" action={`https://formspree.io/f/${site.formspreeId}`}>
+            <input type="hidden" name="photo_url" id="print-photo-input" />
+            <div class="form-field">
+              <label for="print-name">Name</label>
+              <input type="text" id="print-name" name="name" required placeholder="Your name" />
+            </div>
+            <div class="form-field">
+              <label for="print-email">Email</label>
+              <input type="email" id="print-email" name="email" required placeholder="you@example.com" />
+            </div>
+            <div class="form-field">
+              <label for="print-message">Message <span class="form-optional">(optional)</span></label>
+              <textarea id="print-message" name="message" rows="3" placeholder="Size preference, questions…"></textarea>
+            </div>
+            <button type="submit" class="print-submit-btn">Send inquiry</button>
+          </form>
+          <p class="print-success" id="print-success" hidden>Thanks! I'll be in touch soon.</p>
+        </div>
+      </dialog>
+    )}
 
     <!-- VIDEOS -->
     <section id="videos" aria-labelledby="videos-heading">
@@ -352,6 +390,38 @@ videos = await Promise.all(
       document.getElementById('lightbox-close')?.addEventListener('click', () => dialog.close());
       dialog.addEventListener('click', (e: MouseEvent) => { if (e.target === dialog) dialog.close(); });
     }
+
+    // Print inquiry
+    const printDialog = document.getElementById('print-dialog') as HTMLDialogElement | null;
+    const printForm = document.getElementById('print-form') as HTMLFormElement | null;
+    const printPhotoInput = document.getElementById('print-photo-input') as HTMLInputElement | null;
+    const printThumb = document.getElementById('print-dialog-thumb') as HTMLImageElement | null;
+    const printSuccess = document.getElementById('print-success') as HTMLElement | null;
+
+    document.getElementById('print-inquiry-btn')?.addEventListener('click', () => {
+      if (printPhotoInput) printPhotoInput.value = lightboxImg?.src ?? '';
+      if (printThumb) { printThumb.src = lightboxImg?.src ?? ''; printThumb.alt = lightboxImg?.alt ?? ''; }
+      if (printForm) { printForm.style.display = ''; }
+      if (printSuccess) printSuccess.hidden = true;
+      dialog?.close();
+      printDialog?.showModal();
+    });
+
+    document.getElementById('print-dialog-close')?.addEventListener('click', () => printDialog?.close());
+    printDialog?.addEventListener('click', (e: MouseEvent) => { if (e.target === printDialog) printDialog.close(); });
+
+    printForm?.addEventListener('submit', async (e: SubmitEvent) => {
+      e.preventDefault();
+      const res = await fetch(printForm.action, {
+        method: 'POST',
+        body: new FormData(printForm),
+        headers: { Accept: 'application/json' },
+      }).catch(() => null);
+      if (res?.ok) {
+        printForm.style.display = 'none';
+        if (printSuccess) printSuccess.hidden = false;
+      }
+    });
 
     document.querySelectorAll<HTMLElement>('.video-thumb').forEach(thumb => {
       const activate = () => {
