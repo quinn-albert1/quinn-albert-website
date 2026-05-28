@@ -32,7 +32,8 @@ if (site.youtubeChannelId) {
   <nav class="site-nav" id="nav" aria-label="Site navigation">
     <a href="/" class="nav-logo">Quinn Albert</a>
     <ul class="nav-links" role="list">
-      <li><a href="#photos">Photos</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#explore">Explore</a></li>
       <li><a href="#videos">Videos</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
@@ -54,6 +55,21 @@ if (site.youtubeChannelId) {
 
     <!-- HERO -->
     <section class="hero" aria-labelledby="hero-name">
+      {site.heroVideos.length > 0 && (
+        <div class="hero-video-bg" aria-hidden="true">
+          {site.heroVideos.map((src, i) => (
+            <video
+              class={`hero-video${i === 0 ? ' is-active' : ''}`}
+              data-index={String(i)}
+              muted
+              playsinline
+              preload={i === 0 ? 'auto' : 'none'}
+            >
+              <source src={src} />
+            </video>
+          ))}
+        </div>
+      )}
       <h1 class="hero-name" id="hero-name">Quinn Albert</h1>
       <p class="hero-tagline">{site.tagline}</p>
       <div class="hero-scroll" aria-hidden="true">
@@ -63,62 +79,65 @@ if (site.youtubeChannelId) {
       </div>
     </section>
 
-    <!-- PHOTOS: curated gallery + location cards -->
-    <section id="photos" aria-labelledby="photos-heading">
+    <!-- GALLERY: curated gallery-tagged photos -->
+    <section id="gallery" aria-labelledby="gallery-heading">
       <div class="photos-header">
         <p class="section-label">Photos</p>
-        <h2 id="photos-heading">Gallery</h2>
+        <h2 id="gallery-heading">Gallery</h2>
       </div>
 
       {hasPhotos ? (
-        <>
-          <!-- Curated masonry -->
-          <div class="photo-grid home-gallery" id="photo-grid">
-            {allGalleryPhotos.map((photo, i) => (
-              <button
-                class="photo-item"
-                data-src={photo.url}
-                data-alt="Gallery"
-                aria-label="View photo"
-              >
-                <img src={photo.url} alt="Gallery photo" loading={i < 6 ? 'eager' : 'lazy'} />
-              </button>
-            ))}
-          </div>
-
-          <!-- Location cards -->
-          {sections.length > 0 && (
-            <div class="locations-block">
-              <p class="section-label">Explore</p>
-              <h2 class="locations-heading">By destination</h2>
-              <div class="location-cards">
-                {sections.map(section => (
-                  <a
-                    href={`/photos/${section.slug}`}
-                    class="location-card"
-                    aria-label={`View all ${section.name} photos`}
-                  >
-                    {section.previewUrl && (
-                      <img
-                        src={section.previewUrl}
-                        alt={section.name}
-                        loading="lazy"
-                        class="location-card-img"
-                      />
-                    )}
-                    <div class="location-card-overlay" aria-hidden="true"></div>
-                    <div class="location-card-label">
-                      <span class="location-card-name">{section.name}</span>
-                      <span class="location-card-count">{section.total} photos</span>
-                    </div>
-                  </a>
-                ))}
-              </div>
-            </div>
-          )}
-        </>
+        <div class="photo-grid home-gallery" id="photo-grid">
+          {allGalleryPhotos.map((photo, i) => (
+            <button
+              class="photo-item"
+              data-src={photo.url}
+              data-alt="Gallery"
+              aria-label="View photo"
+            >
+              <img src={photo.url} alt="Gallery photo" loading={i < 6 ? 'eager' : 'lazy'} />
+            </button>
+          ))}
+        </div>
       ) : (
         <div class="photo-empty"><p>Photos coming soon.</p></div>
+      )}
+    </section>
+
+    <!-- EXPLORE: location cards -->
+    <section id="explore" aria-labelledby="explore-heading">
+      <div class="photos-header">
+        <p class="section-label">Explore</p>
+        <h2 id="explore-heading">By destination</h2>
+      </div>
+
+      {sections.length > 0 ? (
+        <div class="locations-block">
+          <div class="location-cards">
+            {sections.map(section => (
+              <a
+                href={`/photos/${section.slug}`}
+                class="location-card"
+                aria-label={`View all ${section.name} photos`}
+              >
+                {section.previewUrl && (
+                  <img
+                    src={section.previewUrl}
+                    alt={section.name}
+                    loading="lazy"
+                    class="location-card-img"
+                  />
+                )}
+                <div class="location-card-overlay" aria-hidden="true"></div>
+                <div class="location-card-label">
+                  <span class="location-card-name">{section.name}</span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      ) : (
+        <div class="photo-empty"><p>Destinations coming soon.</p></div>
       )}
     </section>
 
@@ -144,7 +163,7 @@ if (site.youtubeChannelId) {
         {videos.map(video => (
           <div class="video-thumb" data-id={video.id} role="button" tabindex="0"
                aria-label={video.title ? `Play: ${video.title}` : 'Play video'}>
-            <img src={`https://i.ytimg.com/vi/${video.id}/maxresdefault.jpg`}
+            <img src={`https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`}
                  alt={video.title || 'YouTube video'} loading="lazy" />
             <div class="play-overlay" aria-hidden="true">
               <div class="play-btn">
@@ -161,7 +180,6 @@ if (site.youtubeChannelId) {
       <div class="contact-inner">
         <p class="section-label">Contact</p>
         <h2 id="contact-heading">Say hello</h2>
-        <p>Whether it's a collaboration, a project, or just a note — reach out.</p>
         <a href={`mailto:${site.email}`} class="email-btn" aria-label="Send an email">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -202,6 +220,52 @@ if (site.youtubeChannelId) {
   <script>
     const yearEl = document.getElementById('year');
     if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+
+    // Hero background video cycling + glitch restart on full loop
+    const heroVideos = Array.from(document.querySelectorAll<HTMLVideoElement>('.hero-video'));
+    if (heroVideos.length > 0) {
+      let current = 0;
+      let playedCount = 0;
+      const glitchEls = [
+        document.querySelector<HTMLElement>('.hero-name'),
+        document.querySelector<HTMLElement>('.hero-tagline'),
+      ].filter((el): el is HTMLElement => el !== null);
+
+      const triggerGlitch = () => {
+        glitchEls.forEach(el => {
+          el.style.animation = 'none';
+          void el.offsetHeight;          // force reflow to restart keyframes
+          el.style.animation = '';
+        });
+      };
+
+      const play = (idx: number) => {
+        heroVideos[idx].currentTime = 0;
+        heroVideos[idx].play().catch(() => {});
+      };
+
+      if (heroVideos.length === 1) {
+        heroVideos[0].loop = true;
+      } else {
+        heroVideos.forEach((vid, i) => {
+          vid.addEventListener('ended', () => {
+            playedCount++;
+            const next = (i + 1) % heroVideos.length;
+            heroVideos[next].classList.add('is-active');
+            play(next);
+            setTimeout(() => {
+              heroVideos[current].classList.remove('is-active');
+              current = next;
+            }, 1000);
+            if (playedCount >= heroVideos.length) {
+              playedCount = 0;
+              triggerGlitch();
+            }
+          });
+        });
+      }
+      play(0);
+    }
 
     const nav = document.getElementById('nav');
     if (nav) {

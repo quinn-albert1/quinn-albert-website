@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import { buildPhotoData } from '../../lib/photos';
 import type { Section } from '../../lib/photos';
+import { site } from '../../config';
 
 export function getStaticPaths() {
   const { sections } = buildPhotoData();
@@ -77,41 +78,49 @@ const { section } = Astro.props;
 
     <!-- Sub-sections (China) -->
     {section.subSections.length > 0 && (
-      <div class="location-page-subs">
+      <div class="location-subs-layout">
 
-        <!-- Sub-section sticky pill nav -->
-        <nav class="location-nav" id="sub-nav" aria-label="Jump to region">
-          <ul role="list">
-            {section.subSections.map(sub => (
-              <li>
-                <a href={`#sub-${sub.slug}`} data-loc={sub.slug}>
-                  {sub.name}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
-
-        {section.subSections.map(sub => (
-          <div class="photo-location" id={`sub-${sub.slug}`}>
-            <div class="location-heading-row">
-              <h2 class="location-heading">{sub.name}</h2>
-              <span class="location-count">{sub.photos.length}</span>
-            </div>
-            <div class="photo-grid">
-              {sub.photos.map((photo, i) => (
-                <button
-                  class="photo-item"
-                  data-src={photo.url}
-                  data-alt={`${section.name} — ${sub.name}`}
-                  aria-label={`View photo from ${sub.name}`}
-                >
-                  <img src={photo.url} alt={`${section.name} — ${sub.name}`} loading={i < 6 ? 'eager' : 'lazy'} />
-                </button>
+        <!-- Vertical sidebar nav -->
+        <aside class="sub-sidebar">
+          <nav class="sub-region-nav" id="sub-nav" aria-label="Jump to region">
+            <ul role="list">
+              {section.subSections.map(sub => (
+                <li>
+                  <a href={`#sub-${sub.slug}`} data-loc={sub.slug}>
+                    <span class="sub-nav-name">{sub.name}</span>
+                    {site.subSectionYears[sub.slug] && (
+                      <span class="sub-nav-year">{site.subSectionYears[sub.slug]}</span>
+                    )}
+                  </a>
+                </li>
               ))}
+            </ul>
+          </nav>
+        </aside>
+
+        <!-- Photo sections -->
+        <div class="sub-sections-content">
+          {section.subSections.map(sub => (
+            <div class="photo-location" id={`sub-${sub.slug}`}>
+              <div class="location-heading-row">
+                <h2 class="location-heading">{sub.name}</h2>
+                <span class="location-count">{sub.photos.length}</span>
+              </div>
+              <div class="photo-grid">
+                {sub.photos.map((photo, i) => (
+                  <button
+                    class="photo-item"
+                    data-src={photo.url}
+                    data-alt={`${section.name} — ${sub.name}`}
+                    aria-label={`View photo from ${sub.name}`}
+                  >
+                    <img src={photo.url} alt={`${section.name} — ${sub.name}`} loading={i < 6 ? 'eager' : 'lazy'} />
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     )}
 
@@ -147,9 +156,7 @@ const { section } = Astro.props;
           if (e.isIntersecting) {
             const id = e.target.id.replace('sub-', '');
             links.forEach(a => {
-              const active = a.dataset.loc === id;
-              a.classList.toggle('active', active);
-              if (active) a.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+              a.classList.toggle('active', a.dataset.loc === id);
             });
           }
         }

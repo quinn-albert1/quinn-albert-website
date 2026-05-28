@@ -1,6 +1,6 @@
 export const site = {
   name: "Quinn Albert",
-  tagline: "Photographer & filmmaker",
+  tagline: "Photo and Video",
   email: "quinnalbert1@gmail.com",
   socials: {
     youtube: "https://www.youtube.com/@qfavisuals",
@@ -17,6 +17,41 @@ export const site = {
     { id: "Oh4ATQMpz7s", title: "" },
     { id: "VD9KxGOVeK8", title: "" },
   ],
+
+  // Background video clips for the hero (autoplay, muted, cycles through them).
+  // Use short compressed clips (30–90 s, ≤ 20 MB each) for fast load.
+  // Paths are relative to /public, or use full R2 URLs once hosting is set up.
+  // Leave empty to keep the plain dark hero.
+  heroVideos: [
+    'https://pub-4c318461fde143db9bb21750c9620aa7.r2.dev/hero-videos/dji_fly_20250417_165436_8_1745190211627_video.MOV',
+    'https://pub-4c318461fde143db9bb21750c9620aa7.r2.dev/hero-videos/dji_fly_20250420_144516_10_1745190577580_video.MOV',
+    'https://pub-4c318461fde143db9bb21750c9620aa7.r2.dev/hero-videos/dji_fly_20250427_140956_12_1745780024527_video.MOV',
+    'https://pub-4c318461fde143db9bb21750c9620aa7.r2.dev/hero-videos/dji_fly_20250511_121514_19_1746977472586_video.MOV',
+    'https://pub-4c318461fde143db9bb21750c9620aa7.r2.dev/hero-videos/dji_fly_20250524_203656_22_1748182206063_video.MOV',
+    'https://pub-4c318461fde143db9bb21750c9620aa7.r2.dev/hero-videos/dji_fly_20250602_215558_26_1748912377394_video.MP4',
+    'https://pub-4c318461fde143db9bb21750c9620aa7.r2.dev/hero-videos/dji_fly_20250602_221436_30_1749141473553_video.mov',
+    'https://pub-4c318461fde143db9bb21750c9620aa7.r2.dev/hero-videos/dji_fly_20250603_022326_31_1749079167473_video.MOV',
+    'https://pub-4c318461fde143db9bb21750c9620aa7.r2.dev/hero-videos/dji_fly_20250830_221016_44_1756769912802_video.MOV',
+    'https://pub-4c318461fde143db9bb21750c9620aa7.r2.dev/hero-videos/dji_fly_20250918_204844_45_1758317352341_video.MOV',
+    'https://pub-4c318461fde143db9bb21750c9620aa7.r2.dev/hero-videos/dji_fly_20251010_181700_46_1760202042180_video.MOV',
+    'https://pub-4c318461fde143db9bb21750c9620aa7.r2.dev/hero-videos/dji_fly_20260103_165738_58_1767553756037_video.MOV',
+    'https://pub-4c318461fde143db9bb21750c9620aa7.r2.dev/hero-videos/dji_fly_20260128_161646_64_1769635697117_video.MP4',
+    'https://pub-4c318461fde143db9bb21750c9620aa7.r2.dev/hero-videos/dji_fly_20260428_072012_84_1777375811746_video.MOV',
+    'https://pub-4c318461fde143db9bb21750c9620aa7.r2.dev/hero-videos/dji_fly_20260428_235820_85_1777452225908_video.MP4',
+    'https://pub-4c318461fde143db9bb21750c9620aa7.r2.dev/hero-videos/dji_fly_20260429_024730_86_1777452241811_video.MP4',
+    'https://pub-4c318461fde143db9bb21750c9620aa7.r2.dev/hero-videos/dji_fly_20260505_225216_92_1778048972612_video.MOV',
+  ],
+
+  // Years for sub-section nav labels (keyed by slug)
+  subSectionYears: {
+    'beijing': '2026',
+    'chongqing': '2026',
+    'hong-kong-and-shanghai': '2026',
+    'sichuan': '2026',
+    'tibetan-plateau': '2026',
+    'xian': '2026',
+    'yunnan': '2026',
+  } as Record<string, string>,
 
   // Photo hosting via Cloudflare R2
   // Steps: cloudflare.com/dashboard → R2 → Create bucket → "quinn-albert-photos"

@@ -5,5 +5,6 @@ dist/
 .env.*
 *.local
 
-# Photos are hosted on Cloudflare R2, not committed to git
+# Photos and hero videos are hosted on Cloudflare R2, not committed to git
 src/assets/photos/
+public/hero-videos/
