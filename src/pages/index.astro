@@ -234,37 +234,49 @@ if (site.youtubeChannelId) {
       const triggerGlitch = () => {
         glitchEls.forEach(el => {
           el.style.animation = 'none';
-          void el.offsetHeight;          // force reflow to restart keyframes
+          void el.offsetHeight;
           el.style.animation = '';
         });
       };
 
-      const play = (idx: number) => {
-        heroVideos[idx].currentTime = 0;
-        heroVideos[idx].play().catch(() => {});
+      const preloadNext = (idx: number) => {
+        const next = heroVideos[(idx + 1) % heroVideos.length];
+        if (next.preload === 'none') {
+          next.preload = 'auto';
+          next.load();
+        }
+      };
+
+      const advance = () => {
+        const prev = current;
+        current = (current + 1) % heroVideos.length;
+
+        heroVideos[current].classList.add('is-active');
+        heroVideos[current].currentTime = 0;
+        heroVideos[current].play().catch(() => advance()); // skip unplayable clips
+
+        setTimeout(() => heroVideos[prev].classList.remove('is-active'), 1000);
+
+        preloadNext(current);
+
+        playedCount++;
+        if (playedCount >= heroVideos.length) {
+          playedCount = 0;
+          triggerGlitch();
+        }
       };
 
       if (heroVideos.length === 1) {
         heroVideos[0].loop = true;
+        heroVideos[0].play().catch(() => {});
       } else {
-        heroVideos.forEach((vid, i) => {
-          vid.addEventListener('ended', () => {
-            playedCount++;
-            const next = (i + 1) % heroVideos.length;
-            heroVideos[next].classList.add('is-active');
-            play(next);
-            setTimeout(() => {
-              heroVideos[current].classList.remove('is-active');
-              current = next;
-            }, 1000);
-            if (playedCount >= heroVideos.length) {
-              playedCount = 0;
-              triggerGlitch();
-            }
-          });
+        heroVideos.forEach(vid => {
+          vid.addEventListener('ended', advance);
+          vid.addEventListener('error', advance); // skip broken/unsupported clips
         });
+        preloadNext(0);
+        heroVideos[0].play().catch(() => {});
       }
-      play(0);
     }
 
     const nav = document.getElementById('nav');

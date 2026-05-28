@@ -1,3 +1,6 @@
+import { site } from '../config';
+import { photoManifest } from '../data/photo-manifest';
+
 export type PhotoEntry = { url: string };
 
 export type SubSection = {
@@ -27,9 +30,18 @@ export function buildPhotoData(): { sections: Section[]; allGalleryPhotos: Photo
     { eager: true, query: '?url', import: 'default' }
   );
 
+  // In production (no local photos), fall back to manifest + R2 URLs
+  const hasLocal = Object.keys(allFiles).length > 0;
+  const entries: [string, string][] = hasLocal
+    ? Object.entries(allFiles)
+    : photoManifest.map(path => [
+        `../assets/photos/Lightroom Photos/${path}`,
+        `${site.r2BaseUrl}/photos/${path.split('/').map(encodeURIComponent).join('/')}`,
+      ]);
+
   const sectionMap = new Map<string, Section>();
 
-  for (const [rawPath, url] of Object.entries(allFiles)) {
+  for (const [rawPath, url] of entries) {
     const after = rawPath.replace('../assets/photos/Lightroom Photos/', '');
     const parts = after.split('/');
     const locationName = parts[0];

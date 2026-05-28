@@ -58,7 +58,7 @@ export const site = {
   //        Upload compressed photos → Settings → "Allow public access"
   //        Your public URL prefix will look like: https://pub-xxxx.r2.dev
   //        Set r2BaseUrl to that URL, then list photos below.
-  r2BaseUrl: "", // e.g. "https://pub-abc123.r2.dev"
+  r2BaseUrl: "https://pub-a2b98a9f2bdf46f4842c29d457307835.r2.dev",
 
   // Add photos here once R2 is set up.
   // Each src is relative to r2BaseUrl (e.g. "/banff/DSCF1708.jpg")
