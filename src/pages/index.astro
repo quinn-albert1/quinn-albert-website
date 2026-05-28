@@ -310,9 +310,10 @@ videos = await Promise.all(
     const yearEl = document.getElementById('year');
     if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
-    // Prevent right-click saving on photos
+    // Prevent right-click saving on all images
     document.addEventListener('contextmenu', e => {
-      if ((e.target as Element).closest('.photo-grid, .lightbox, .print-dialog-thumb')) {
+      if (e.target instanceof HTMLImageElement ||
+          (e.target as Element).closest('.photo-item, .lightbox, .print-dialog-thumb')) {
         e.preventDefault();
       }
     });
