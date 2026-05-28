@@ -1026,6 +1026,14 @@ section {
   line-height: 1.7;
 }
 
+.contact-btns {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+}
+
 .email-btn {
   display: inline-flex;
   align-items: center;
@@ -1040,7 +1048,6 @@ section {
   padding: 0.875rem 2rem;
   border-radius: 9999px;
   transition: background 0.2s, transform 0.1s;
-  margin-bottom: 2.5rem;
 }
 .email-btn:hover {
   background: var(--color-accent-hover);
@@ -1048,6 +1055,29 @@ section {
 }
 .email-btn:active { transform: translateY(0); }
 .email-btn svg { width: 16px; height: 16px; }
+
+.print-contact-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: none;
+  border: 1px solid var(--color-accent);
+  color: var(--color-accent);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.875rem 2rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+.print-contact-btn:hover {
+  background: rgba(201, 169, 110, 0.1);
+  transform: translateY(-1px);
+}
+.print-contact-btn:active { transform: translateY(0); }
 
 .social-row {
   list-style: none;

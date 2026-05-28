@@ -56,7 +56,7 @@ export const site = {
   // Print inquiry form via Formspree (formspree.io).
   // 1. Sign up at formspree.io → New Form → copy the 8-char ID (e.g. "xpzvogkb")
   // 2. Paste it here. Leave empty to hide the print inquiry button entirely.
-  formspreeId: "",
+  formspreeId: "mdajyyzz",
 
   // Photo hosting via Cloudflare R2
   // Steps: cloudflare.com/dashboard → R2 → Create bucket → "quinn-albert-photos"

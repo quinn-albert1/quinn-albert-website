@@ -252,14 +252,25 @@ videos = await Promise.all(
       <div class="contact-inner">
         <p class="section-label">Contact</p>
         <h2 id="contact-heading">Say hello</h2>
-        <a href={`mailto:${site.email}`} class="email-btn" aria-label="Send an email">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="2" y="4" width="20" height="16" rx="2"/>
-            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
-          </svg>
-          Send an email
-        </a>
+        <div class="contact-btns">
+          <a href={`mailto:${site.email}`} class="email-btn" aria-label="Send an email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="2" y="4" width="20" height="16" rx="2"/>
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+            </svg>
+            Send an email
+          </a>
+          {site.formspreeId && (
+            <button class="print-contact-btn" id="contact-print-btn" aria-label="Request a print">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="16" height="16">
+                <path d="M4 16v4h16v-4M8 12l4 4 4-4M12 3v13"/>
+              </svg>
+              Request a print
+            </button>
+          )}
+        </div>
         <ul class="social-row" role="list" aria-label="Social media links">
           <li>
             <a href={site.socials.youtube} target="_blank" rel="noopener noreferrer">
@@ -400,8 +411,8 @@ videos = await Promise.all(
 
     document.getElementById('print-inquiry-btn')?.addEventListener('click', () => {
       if (printPhotoInput) printPhotoInput.value = lightboxImg?.src ?? '';
-      if (printThumb) { printThumb.src = lightboxImg?.src ?? ''; printThumb.alt = lightboxImg?.alt ?? ''; }
-      if (printForm) { printForm.style.display = ''; }
+      if (printThumb) { printThumb.src = lightboxImg?.src ?? ''; printThumb.alt = lightboxImg?.alt ?? ''; printThumb.hidden = false; }
+      if (printForm) printForm.style.display = '';
       if (printSuccess) printSuccess.hidden = true;
       dialog?.close();
       printDialog?.showModal();
@@ -409,6 +420,14 @@ videos = await Promise.all(
 
     document.getElementById('print-dialog-close')?.addEventListener('click', () => printDialog?.close());
     printDialog?.addEventListener('click', (e: MouseEvent) => { if (e.target === printDialog) printDialog.close(); });
+
+    document.getElementById('contact-print-btn')?.addEventListener('click', () => {
+      if (printPhotoInput) printPhotoInput.value = '';
+      if (printThumb) { printThumb.src = ''; printThumb.hidden = true; }
+      if (printForm) printForm.style.display = '';
+      if (printSuccess) printSuccess.hidden = true;
+      printDialog?.showModal();
+    });
 
     printForm?.addEventListener('submit', async (e: SubmitEvent) => {
       e.preventDefault();
