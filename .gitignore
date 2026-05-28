@@ -8,3 +8,9 @@ dist/
 # Photos and hero videos are hosted on Cloudflare R2, not committed to git
 src/assets/photos/
 public/hero-videos/
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+!.env.example
