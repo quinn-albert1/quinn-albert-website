@@ -344,13 +344,33 @@ videos = await Promise.all(
         }
       };
 
+      const failedVideos = new Set<number>();
+
       const advance = () => {
         const prev = current;
-        current = (current + 1) % heroVideos.length;
+
+        // Find the next playable video (skip any that have already errored)
+        let next = (current + 1) % heroVideos.length;
+        let attempts = 0;
+        while (failedVideos.has(next) && attempts < heroVideos.length) {
+          next = (next + 1) % heroVideos.length;
+          attempts++;
+        }
+        if (attempts >= heroVideos.length) return; // all videos failed, stop
+
+        current = next;
+        const idx = current; // capture for stale-check in catch
 
         heroVideos[current].classList.add('is-active');
         heroVideos[current].currentTime = 0;
-        heroVideos[current].play().catch(() => advance()); // skip unplayable clips
+        heroVideos[current].play().catch(() => {
+          // Only advance if this video is still the active one
+          // (guards against stale catches from superseded play() calls)
+          if (current === idx) {
+            failedVideos.add(idx);
+            advance();
+          }
+        });
 
         setTimeout(() => heroVideos[prev].classList.remove('is-active'), 1000);
 
@@ -368,11 +388,13 @@ videos = await Promise.all(
         heroVideos[0].play().catch(() => {});
       } else {
         heroVideos.forEach(vid => {
+          // Only listen for 'ended' — NOT 'error'.
+          // Background preload errors should not trigger an advance; only a
+          // failed play() on the active video should (handled via .catch above).
           vid.addEventListener('ended', advance);
-          vid.addEventListener('error', advance); // skip broken/unsupported clips
         });
         preloadNext(0);
-        heroVideos[0].play().catch(() => {});
+        heroVideos[0].play().catch(() => { failedVideos.add(0); advance(); });
       }
     }
 
