@@ -387,11 +387,15 @@ videos = await Promise.all(
         heroVideos[0].loop = true;
         heroVideos[0].play().catch(() => {});
       } else {
-        heroVideos.forEach(vid => {
-          // Only listen for 'ended' — NOT 'error'.
-          // Background preload errors should not trigger an advance; only a
-          // failed play() on the active video should (handled via .catch above).
+        heroVideos.forEach((vid, i) => {
           vid.addEventListener('ended', advance);
+          // Re-add error listener, but ONLY act if this is the active video.
+          // This handles the case where play() resolves but the video later
+          // fails to decode — the catch never fires in that scenario.
+          // Background preload errors (i !== current) are silently ignored.
+          vid.addEventListener('error', () => {
+            if (current === i) { failedVideos.add(i); advance(); }
+          });
         });
         preloadNext(0);
         heroVideos[0].play().catch(() => { failedVideos.add(0); advance(); });
