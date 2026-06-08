@@ -345,8 +345,11 @@ videos = await Promise.all(
       };
 
       const failedVideos = new Set<number>();
+      let stallTimer: ReturnType<typeof setTimeout> | null = null;
 
       const advance = () => {
+        if (stallTimer) { clearTimeout(stallTimer); stallTimer = null; }
+
         const prev = current;
 
         // Find the next playable video (skip any that have already errored)
@@ -371,6 +374,15 @@ videos = await Promise.all(
             advance();
           }
         });
+
+        // Fallback: skip if no frames arrive within 5s (handles silent decode failures)
+        stallTimer = setTimeout(() => {
+          if (current === idx) { failedVideos.add(idx); advance(); }
+        }, 5000);
+        // Cancel the stall timer once the video is actually producing frames
+        heroVideos[current].addEventListener('timeupdate', () => {
+          if (stallTimer && current === idx) { clearTimeout(stallTimer); stallTimer = null; }
+        }, { once: true });
 
         setTimeout(() => heroVideos[prev].classList.remove('is-active'), 1000);
 

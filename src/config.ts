@@ -25,18 +25,18 @@ export const site = {
   heroVideos: [
     'https://pub-4c318461fde143db9bb21750c9620aa7.r2.dev/hero-videos/dji_fly_20250417_165436_8_1745190211627_video.MOV',
     'https://pub-4c318461fde143db9bb21750c9620aa7.r2.dev/hero-videos/dji_fly_20250420_144516_10_1745190577580_video.MOV',
-    'https://pub-4c318461fde143db9bb21750c9620aa7.r2.dev/hero-videos/dji_fly_20250427_140956_12_1745780024527_video.MOV',
+    // dji_fly_20250427 missing from R2 — removed
     'https://pub-4c318461fde143db9bb21750c9620aa7.r2.dev/hero-videos/dji_fly_20250511_121514_19_1746977472586_video.MOV',
     'https://pub-4c318461fde143db9bb21750c9620aa7.r2.dev/hero-videos/dji_fly_20250524_203656_22_1748182206063_video.MOV',
     'https://pub-4c318461fde143db9bb21750c9620aa7.r2.dev/hero-videos/dji_fly_20250602_215558_26_1748912377394_video.MP4',
-    'https://pub-4c318461fde143db9bb21750c9620aa7.r2.dev/hero-videos/dji_fly_20250602_221436_30_1749141473553_video.mov',
-    'https://pub-4c318461fde143db9bb21750c9620aa7.r2.dev/hero-videos/dji_fly_20250603_022326_31_1749079167473_video.MOV',
+    // dji_fly_20250602_221436 missing from R2 — removed
+    // dji_fly_20250603 missing from R2 — removed
     'https://pub-4c318461fde143db9bb21750c9620aa7.r2.dev/hero-videos/dji_fly_20250830_221016_44_1756769912802_video.MOV',
     'https://pub-4c318461fde143db9bb21750c9620aa7.r2.dev/hero-videos/dji_fly_20250918_204844_45_1758317352341_video.MOV',
     'https://pub-4c318461fde143db9bb21750c9620aa7.r2.dev/hero-videos/dji_fly_20251010_181700_46_1760202042180_video.MOV',
     'https://pub-4c318461fde143db9bb21750c9620aa7.r2.dev/hero-videos/dji_fly_20260103_165738_58_1767553756037_video.MOV',
     'https://pub-4c318461fde143db9bb21750c9620aa7.r2.dev/hero-videos/dji_fly_20260128_161646_64_1769635697117_video.MP4',
-    'https://pub-4c318461fde143db9bb21750c9620aa7.r2.dev/hero-videos/dji_fly_20260428_072012_84_1777375811746_video.MOV',
+    // dji_fly_20260428_072012 missing from R2 — removed
     'https://pub-4c318461fde143db9bb21750c9620aa7.r2.dev/hero-videos/dji_fly_20260428_235820_85_1777452225908_video.MP4',
     'https://pub-4c318461fde143db9bb21750c9620aa7.r2.dev/hero-videos/dji_fly_20260429_024730_86_1777452241811_video.MP4',
     'https://pub-4c318461fde143db9bb21750c9620aa7.r2.dev/hero-videos/dji_fly_20260505_225216_92_1778048972612_video.MOV',
