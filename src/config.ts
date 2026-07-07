@@ -12,10 +12,10 @@ export const site = {
   youtubeChannelId: "",
   // Curated videos shown by default (or as fallback when no channelId is set)
   featuredVideos: [
+    { id: "0HKHIWvyhJo", title: "" },
     { id: "g9HpdnMcBgM", title: "" },
     { id: "VfpLxP9kIWs", title: "" },
     { id: "Oh4ATQMpz7s", title: "" },
-    { id: "0HKHIWvyhJo", title: "" },
   ],
 
   // Background video clips for the hero (autoplay, muted, cycles through them).
